@@ -84,7 +84,7 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
     </p>
   <p class="article-time">
     <time datetime="2015-01-27T03:46:14.000Z" itemprop="datePublished">Jan 27 2015</time>
-    Updated:<time datetime="2015-01-27T04:32:52.000Z" itemprop="dateModified">Jan 27 2015</time>
+    Updated:<time datetime="2015-01-27T04:47:57.000Z" itemprop="dateModified">Jan 27 2015</time>
     
   </p>
 </header>
@@ -103,7 +103,7 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
 <li>干掉所有的空行、空格，借助实例方法<br>  <code>- (NSString *)stringByReplacingOccurrencesOfString:(NSString *)target withString:(NSString *)replacement</code></li>
 </ul>
 <h2 id="去除字符串两端的空白">去除字符串两端的空白</h2>
-<figure class="highlight Objective-C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)stringByRemoveBothEndsWhiteSpace:(<span class="built_in">NSString</span> *)aString {</div><div class="line">	<span class="built_in">NSString</span> *tmp = [aString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];</div><div class="line">    tmp = [resultString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];</div><div class="line">    <span class="keyword">return</span> timp;</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight Objective-C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)stringByRemoveBothEndsWhiteSpace:(<span class="built_in">NSString</span> *)aString {</div><div class="line">    <span class="built_in">NSString</span> *tmp = [aString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];</div><div class="line">    tmp = [tmp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];</div><div class="line">    <span class="keyword">return</span> timp;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p>此法只能干掉字符串两端的空白，中间的空白无法去除</p>
 <h2 id="去除所有空白">去除所有空白</h2>
