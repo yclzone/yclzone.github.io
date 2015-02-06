@@ -71,21 +71,22 @@
   <article>
     <h1 itemprop="name">
       
-        <a href="/2015/02/06/man命令输出重定向乱码解决方法/" title="" itemprop="url">
+        <a href="/2015/02/06/man命令输出重定向乱码解决方法/" title="man命令输出重定向乱码解决方法" itemprop="url">
       
-        
+        man命令输出重定向乱码解决方法
       </a>
     </h1>
     
      
-           <p itemprop="description" >title: man命令输出重定向乱码解决方法date: 2015-02-06 22:33:53tags:重定向, 乱码
-categories: Unix
-Linux/Unix系统下，使用命令man可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如
-1man moun</p>
+           <p itemprop="description" >Linux/Unix系统下，使用命令man可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如
+1man mount &amp;gt; mount.txt
+
+但是打开发现有“乱码”，无法愉快得阅读，解决方法为结合col -b 
+1man mount|col -b &amp;gt; mo</p>
         
     
     <p class="article-more-link">
-      <time datetime="2015-02-06T14:47:04.000Z" itemprop="datePublished">Feb 6 2015</time>
+      <time datetime="2015-02-06T14:33:53.000Z" itemprop="datePublished">Feb 6 2015</time>
       
           <a href="/2015/02/06/man命令输出重定向乱码解决方法/">MORE&raquo;</a>
       
@@ -204,6 +205,8 @@ Int, Float是一种基本数据类型
 		
 			<li><a href="/categories/Test/" title="Test">Test<sup>1</sup></a></li>
 		
+			<li><a href="/categories/Unix/" title="Unix">Unix<sup>1</sup></a></li>
+		
 		</ul>
 </div>
 
@@ -222,7 +225,11 @@ Int, Float是一种基本数据类型
 		
 			<li><a href="/tags/Hello/" title="Hello">Hello<sup>1</sup></a></li>
 		
-			<li><a href="/tags/OC-Foundation-NSString/" title="OC, Foundation, NSString">OC, Foundation, NSString<sup>1</sup></a></li>
+			<li><a href="/tags/OC-Foundation-NSString/" title="OC, Foundation, NSString">OC, Foundation, NSString<sup>0</sup></a></li>
+		
+			<li><a href="/tags/OC-whitespace-NSString/" title="OC, whitespace, NSString">OC, whitespace, NSString<sup>1</sup></a></li>
+		
+			<li><a href="/tags/重定向-乱码/" title="重定向, 乱码">重定向, 乱码<sup>1</sup></a></li>
 		
 		</ul>
 </div>
