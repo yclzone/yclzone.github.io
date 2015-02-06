@@ -4,22 +4,21 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>man命令输出重定向乱码解决方法 | JUST DO IT</title>
+    <title>JUST DO IT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="yclzone">
     
-    <meta name="description" content="Linux/Unix系统下，使用命令man可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如
-1man mount &amp;gt; mount.txt
-
-但是打开发现有“乱码”，无法愉快得阅读，解决方法为结合col -b 
-1man mount|col -b &amp;gt; mount.txt">
+    <meta name="description" content="title: man命令输出重定向乱码解决方法date: 2015-02-06 22:33:53tags:重定向, 乱码
+categories: Unix
+Linux/Unix系统下，使用命令man可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如
+1man mount &amp;gt; mou">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="yclzone" />
-    <meta name="twitter:title" content="man命令输出重定向乱码解决方法 | JUST DO IT" />
+    <meta name="twitter:title" content="JUST DO IT" />
       
     
     
@@ -76,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/06/man命令输出重定向乱码解决方法/" title="man命令输出重定向乱码解决方法" itemprop="url">man命令输出重定向乱码解决方法</a>
+      <a href="/2015/02/06/man命令输出重定向乱码解决方法/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yclzone.com" title="yclzone">yclzone</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-06T14:33:53.000Z" itemprop="datePublished">Feb 6 2015</time>
-    Updated:<time datetime="2015-02-06T14:39:57.000Z" itemprop="dateModified">Feb 6 2015</time>
+    <time datetime="2015-02-06T14:47:04.000Z" itemprop="datePublished">Feb 6 2015</time>
+    Updated:<time datetime="2015-02-06T14:47:04.000Z" itemprop="dateModified">Feb 6 2015</time>
     
   </p>
 </header>
@@ -93,15 +92,18 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#categories:_Unix"><span class="toc-number">1.</span> <span class="toc-text">categories: Unix</span></a></li></ol>
 		</div>
 		
-		<p>Linux/Unix系统下，使用命令<code>man</code>可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如</p>
+		<p>title: man命令输出重定向乱码解决方法<br>date: 2015-02-06 22:33:53<br>tags:重定向, 乱码</p>
+<h2 id="categories:_Unix">categories: Unix</h2>
+<p>Linux/Unix系统下，使用命令<code>man</code>可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">man mount &gt; mount.txt</div></pre></td></tr></table></figure>
 
 <p>但是打开发现有“乱码”，无法愉快得阅读，解决方法为结合<code>col -b</code> </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">man mount|col -b &gt; mount.txt</div></pre></td></tr></table></figure>
 
+<p><code>man</code>一下<code>col</code>会发现<code>col -b</code>不输出backspace，要的就是这个效果</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -111,7 +113,7 @@
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yclzone.com/2015/02/06/man命令输出重定向乱码解决方法/" data-title="man命令输出重定向乱码解决方法 | JUST DO IT" data-tsina="null" class="share clearfix">
+  <div data-url="http://yclzone.com/2015/02/06/man命令输出重定向乱码解决方法/" data-title="JUST DO IT" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -136,7 +138,7 @@
       
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#categories:_Unix"><span class="toc-number">1.</span> <span class="toc-text">categories: Unix</span></a></li></ol>
   </div>
 
 <div id="asidepart">
