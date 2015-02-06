@@ -4,22 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>NSString去除空白行及空格 | JUST DO IT</title>
+    <title>man命令输出重定向乱码解决方法 | JUST DO IT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="yclzone">
     
-    <meta name="description" content="概述
-iOS可能会有去除字符串中的空行、空格的需求，有两种情况：
+    <meta name="description" content="Linux/Unix系统下，使用命令man可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如
+1man mount &amp;gt; mount.txt
 
-干掉字符串两端的空行、空格，借助实例方法  - (NSString *)stringByTrimmingCharactersInSet:(NSCharacterSet *)set
-干掉所有的空行、空格，借助实例方法  - (NSSt">
+但是打开发现有“乱码”，无法愉快得阅读，解决方法为结合col -b 
+1man mount|col -b &amp;gt; mount.txt">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="yclzone" />
-    <meta name="twitter:title" content="NSString去除空白行及空格 | JUST DO IT" />
+    <meta name="twitter:title" content="man命令输出重定向乱码解决方法 | JUST DO IT" />
       
     
     
@@ -76,15 +76,15 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/01/27/NSString去除空白行及空格/" title="NSString去除空白行及空格" itemprop="url">NSString去除空白行及空格</a>
+      <a href="/2015/02/06/man命令输出重定向乱码解决方法/" title="man命令输出重定向乱码解决方法" itemprop="url">man命令输出重定向乱码解决方法</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yclzone.com" title="yclzone">yclzone</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-01-27T03:46:14.000Z" itemprop="datePublished">Jan 27 2015</time>
-    Updated:<time datetime="2015-01-27T04:47:57.000Z" itemprop="dateModified">Jan 27 2015</time>
+    <time datetime="2015-02-06T14:33:53.000Z" itemprop="datePublished">Feb 6 2015</time>
+    Updated:<time datetime="2015-02-06T14:39:57.000Z" itemprop="dateModified">Feb 6 2015</time>
     
   </p>
 </header>
@@ -93,43 +93,25 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除字符串两端的空白"><span class="toc-number">2.</span> <span class="toc-text">去除字符串两端的空白</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除所有空白"><span class="toc-number">3.</span> <span class="toc-text">去除所有空白</span></a></li></ol>
+		
 		</div>
 		
-		<h2 id="概述">概述</h2>
-<p>iOS可能会有去除字符串中的空行、空格的需求，有两种情况：</p>
-<ul>
-<li>干掉字符串两端的空行、空格，借助实例方法<br>  <code>- (NSString *)stringByTrimmingCharactersInSet:(NSCharacterSet *)set</code></li>
-<li>干掉所有的空行、空格，借助实例方法<br>  <code>- (NSString *)stringByReplacingOccurrencesOfString:(NSString *)target withString:(NSString *)replacement</code></li>
-</ul>
-<h2 id="去除字符串两端的空白">去除字符串两端的空白</h2>
-<figure class="highlight Objective-C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)stringByRemoveBothEndsWhiteSpace:(<span class="built_in">NSString</span> *)aString {</div><div class="line">    <span class="built_in">NSString</span> *tmp = [aString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];</div><div class="line">    tmp = [tmp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];</div><div class="line">    <span class="keyword">return</span> timp;</div><div class="line">}</div></pre></td></tr></table></figure>
+		<p>Linux/Unix系统下，使用命令<code>man</code>可快速查看某命令的使用手册，可以通过输出重定向来导出文档，比如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">man mount &gt; mount.txt</div></pre></td></tr></table></figure>
 
-<p>此法只能干掉字符串两端的空白，中间的空白无法去除</p>
-<h2 id="去除所有空白">去除所有空白</h2>
-<figure class="highlight Objective-C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)removeSpaceAndNewline:(<span class="built_in">NSString</span> *)aString {  </div><div class="line">    <span class="built_in">NSString</span> *temp = [aString stringByReplacingOccurrencesOfString:<span class="string">@" "</span> withString:<span class="string">@""</span>];  </div><div class="line">    temp = [temp stringByReplacingOccurrencesOfString:<span class="string">@"\r"</span> withString:<span class="string">@""</span>];  </div><div class="line">    temp = [temp stringByReplacingOccurrencesOfString:<span class="string">@"\n"</span> withString:<span class="string">@""</span>];  </div><div class="line">    <span class="keyword">return</span> temp;  </div><div class="line">}</div></pre></td></tr></table></figure>
+<p>但是打开发现有“乱码”，无法愉快得阅读，解决方法为结合<code>col -b</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">man mount|col -b &gt; mount.txt</div></pre></td></tr></table></figure>
 
-<p>此法可以去除字符串中的所有空白</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/OC-Foundation-NSString/">OC, Foundation, NSString</a>
-  </div>
-
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/OC/">OC</a>
-</div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yclzone.com/2015/01/27/NSString去除空白行及空格/" data-title="NSString去除空白行及空格 | JUST DO IT" data-tsina="null" class="share clearfix">
+  <div data-url="http://yclzone.com/2015/02/06/man命令输出重定向乱码解决方法/" data-title="man命令输出重定向乱码解决方法 | JUST DO IT" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -138,19 +120,11 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/02/06/man命令输出重定向乱码解决方法/" title="man命令输出重定向乱码解决方法">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  man命令输出重定向乱码解决方法</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/01/27/hello-world/"  title="Hello World">
+<a href="/2015/01/27/NSString去除空白行及空格/"  title="NSString去除空白行及空格">
  <strong>NEXT:</strong><br/> 
- <span>Hello World
+ <span>NSString去除空白行及空格
 </span>
 </a>
 </div>
@@ -162,7 +136,7 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
       
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除字符串两端的空白"><span class="toc-number">2.</span> <span class="toc-text">去除字符串两端的空白</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除所有空白"><span class="toc-number">3.</span> <span class="toc-text">去除所有空白</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">
