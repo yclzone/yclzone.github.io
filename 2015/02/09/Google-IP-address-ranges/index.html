@@ -4,22 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>NSString去除空白行及空格 | JUST DO IT</title>
+    <title>Google IP address ranges | JUST DO IT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="yclzone">
     
-    <meta name="description" content="概述
-iOS可能会有去除字符串中的空行、空格的需求，有两种情况：
+    <meta name="description" content="Step One
+1nslookup -q=TXT _spf.google.com 8.8.8.8
 
-干掉字符串两端的空行、空格，借助实例方法  - (NSString *)stringByTrimmingCharactersInSet:(NSCharacterSet *)set
-干掉所有的空行、空格，借助实例方法  - (NSSt">
+Step Two
+1nslookup -q=TXT _netblocks.google.com 8.8.8.8
+
+参考连接">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="yclzone" />
-    <meta name="twitter:title" content="NSString去除空白行及空格 | JUST DO IT" />
+    <meta name="twitter:title" content="Google IP address ranges | JUST DO IT" />
       
     
     
@@ -76,15 +78,15 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/01/27/NSString去除空白行及空格/" title="NSString去除空白行及空格" itemprop="url">NSString去除空白行及空格</a>
+      <a href="/2015/02/09/Google-IP-address-ranges/" title="Google IP address ranges" itemprop="url">Google IP address ranges</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yclzone.com" title="yclzone">yclzone</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-01-27T03:46:14.000Z" itemprop="datePublished">Jan 27 2015</time>
-    Updated:<time datetime="2015-02-06T14:49:11.000Z" itemprop="dateModified">Feb 6 2015</time>
+    <time datetime="2015-02-09T09:41:43.000Z" itemprop="datePublished">Feb 9 2015</time>
+    Updated:<time datetime="2015-02-09T09:46:00.000Z" itemprop="dateModified">Feb 9 2015</time>
     
   </p>
 </header>
@@ -93,43 +95,36 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除字符串两端的空白"><span class="toc-number">2.</span> <span class="toc-text">去除字符串两端的空白</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除所有空白"><span class="toc-number">3.</span> <span class="toc-text">去除所有空白</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_One"><span class="toc-number">1.</span> <span class="toc-text">Step One</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_Two"><span class="toc-number">2.</span> <span class="toc-text">Step Two</span></a></li></ol>
 		</div>
 		
-		<h2 id="概述">概述</h2>
-<p>iOS可能会有去除字符串中的空行、空格的需求，有两种情况：</p>
-<ul>
-<li>干掉字符串两端的空行、空格，借助实例方法<br>  <code>- (NSString *)stringByTrimmingCharactersInSet:(NSCharacterSet *)set</code></li>
-<li>干掉所有的空行、空格，借助实例方法<br>  <code>- (NSString *)stringByReplacingOccurrencesOfString:(NSString *)target withString:(NSString *)replacement</code></li>
-</ul>
-<h2 id="去除字符串两端的空白">去除字符串两端的空白</h2>
-<figure class="highlight Objective-C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)stringByRemoveBothEndsWhiteSpace:(<span class="built_in">NSString</span> *)aString {</div><div class="line">    <span class="built_in">NSString</span> *tmp = [aString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];</div><div class="line">    tmp = [tmp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];</div><div class="line">    <span class="keyword">return</span> timp;</div><div class="line">}</div></pre></td></tr></table></figure>
+		<h2 id="Step_One">Step One</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nslookup -q=TXT _spf.google.com <span class="number">8.8</span>.<span class="number">8.8</span></div></pre></td></tr></table></figure>
 
-<p>此法只能干掉字符串两端的空白，中间的空白无法去除</p>
-<h2 id="去除所有空白">去除所有空白</h2>
-<figure class="highlight Objective-C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSString</span> *)removeSpaceAndNewline:(<span class="built_in">NSString</span> *)aString {  </div><div class="line">    <span class="built_in">NSString</span> *temp = [aString stringByReplacingOccurrencesOfString:<span class="string">@" "</span> withString:<span class="string">@""</span>];  </div><div class="line">    temp = [temp stringByReplacingOccurrencesOfString:<span class="string">@"\r"</span> withString:<span class="string">@""</span>];  </div><div class="line">    temp = [temp stringByReplacingOccurrencesOfString:<span class="string">@"\n"</span> withString:<span class="string">@""</span>];  </div><div class="line">    <span class="keyword">return</span> temp;  </div><div class="line">}</div></pre></td></tr></table></figure>
+<h2 id="Step_Two">Step Two</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nslookup -q=TXT _netblocks.google.com <span class="number">8.8</span>.<span class="number">8.8</span></div></pre></td></tr></table></figure>
 
-<p>此法可以去除字符串中的所有空白</p>
+<p><a href="https://support.google.com/a/answer/60764?hl=zh-Hans" target="_blank" rel="external">参考连接</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/OC-whitespace-NSString/">OC, whitespace, NSString</a>
+  <span></span> <a href="/tags/Google-IP/">Google, IP</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/OC/">OC</a>
+  <a class="article-category-link" href="/categories/Google/">Google</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yclzone.com/2015/01/27/NSString去除空白行及空格/" data-title="NSString去除空白行及空格 | JUST DO IT" data-tsina="null" class="share clearfix">
+  <div data-url="http://yclzone.com/2015/02/09/Google-IP-address-ranges/" data-title="Google IP address ranges | JUST DO IT" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -138,19 +133,11 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/02/06/解决man重定向到文件乱码/" title="解决man重定向到文件乱码">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  解决man重定向到文件乱码</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/01/27/hello-world/"  title="Hello World">
+<a href="/2015/02/06/解决man重定向到文件乱码/"  title="解决man重定向到文件乱码">
  <strong>NEXT:</strong><br/> 
- <span>Hello World
+ <span>解决man重定向到文件乱码
 </span>
 </a>
 </div>
@@ -162,7 +149,7 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
       
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除字符串两端的空白"><span class="toc-number">2.</span> <span class="toc-text">去除字符串两端的空白</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#去除所有空白"><span class="toc-number">3.</span> <span class="toc-text">去除所有空白</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_One"><span class="toc-number">1.</span> <span class="toc-text">Step One</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_Two"><span class="toc-number">2.</span> <span class="toc-text">Step Two</span></a></li></ol>
   </div>
 
 <div id="asidepart">
