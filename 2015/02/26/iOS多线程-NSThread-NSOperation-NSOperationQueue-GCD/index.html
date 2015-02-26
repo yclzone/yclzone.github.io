@@ -1,0 +1,385 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>iOS多线程- NSThread NSOperation/NSOperationQueue GCD | JUST DO IT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="yclzone">
+    
+    <meta name="description" content="NSThread
+显示创建线程
+
+实例方法 - (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(id)argument
+
+
+需要手动发送消息 - (void)start
+
+
+类方法 + (void)deta">
+    
+    
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="yclzone" />
+    <meta name="twitter:title" content="iOS多线程- NSThread NSOperation/NSOperationQueue GCD | JUST DO IT" />
+      
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/Tinny.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/Tinny.jpg">
+    
+
+	
+	<link href="http://cdn.bootcss.com/highlight.js/8.2/styles/railscasts.min.css" rel="stylesheet">
+	<script src="http://cdn.bootcss.com/highlight.js/8.2/highlight.min.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="JUST DO IT">JUST DO IT</a></h1>
+				<h2 class="blog-motto">Talk is cheap. Show me the code.  -- Torvalds, Linus</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+                    <ul>
+					 
+						<li><a href="/">HOME</a></li>
+					
+						<li><a href="/archives">Blog</a></li>
+					
+					<li>
+					
+					</li>
+                <li><div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div></li>
+
+				</ul>
+			</nav>	
+</div>
+
+    </header>
+    <div id="container" class="clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/02/26/iOS多线程-NSThread-NSOperation-NSOperationQueue-GCD/" title="iOS多线程- NSThread NSOperation/NSOperationQueue GCD" itemprop="url">iOS多线程- NSThread NSOperation/NSOperationQueue GCD</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yclzone.com" title="yclzone">yclzone</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-02-26T08:23:24.000Z" itemprop="datePublished">Feb 26 2015</time>
+    Updated:<time datetime="2015-02-26T14:29:42.000Z" itemprop="dateModified">Feb 26 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSThread"><span class="toc-number">1.</span> <span class="toc-text">NSThread</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#显示创建线程"><span class="toc-number">1.1.</span> <span class="toc-text">显示创建线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式创建线程_（NSObject分类）"><span class="toc-number">1.2.</span> <span class="toc-text">隐式创建线程 （NSObject分类）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程之间通讯"><span class="toc-number">1.3.</span> <span class="toc-text">线程之间通讯</span></a></li></ol></li></ol>
+		</div>
+		
+		<h2 id="NSThread">NSThread</h2>
+<h3 id="显示创建线程">显示创建线程</h3>
+<ul>
+<li>实例方法 <code>- (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(id)argument</code></li>
+</ul>
+<blockquote>
+<p>需要手动发送消息 <code>- (void)start</code></p>
+</blockquote>
+<ul>
+<li>类方法 <code>+ (void)detachNewThreadSelector:(SEL)selector toTarget:(id)target withObject:(id)argument</code></li>
+</ul>
+<blockquote>
+<p>自动启动线程 </p>
+</blockquote>
+<h3 id="隐式创建线程_（NSObject分类）">隐式创建线程 （NSObject分类）</h3>
+<ul>
+<li>实例方法 <code>- (void)performSelectorInBackground:(SEL)aSelector withObject:(id)arg</code></li>
+</ul>
+<blockquote>
+<p>自动启动线程</p>
+</blockquote>
+<h3 id="线程之间通讯">线程之间通讯</h3>
+<p>使用NSObject分类方法</p>
+<ul>
+<li><p>回到主线程 <code>- (void)performSelectorOnMainThread:(SEL)aSelector withObject:(id)arg waitUntilDone:(BOOL)wait</code></p>
+</li>
+<li><p>回到其他线程 <code>- (void)performSelector:(SEL)aSelector onThread:(NSThread *)thr withObject:(id)arg waitUntilDone:(BOOL)wait</code></p>
+</li>
+</ul>
+<figure class="highlight Objective-C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">#import <span class="title">"ViewController.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()</span></div><div class="line"><span class="comment">/** 票数 */</span></div><div class="line"><span class="keyword">@property</span>(<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="keyword">int</span> count;</div><div class="line"><span class="comment">/** label */</span></div><div class="line"><span class="keyword">@property</span>(<span class="keyword">weak</span>, <span class="keyword">nonatomic</span>) <span class="built_in">UILabel</span> *label;</div><div class="line"><span class="comment">/** 锁 */</span></div><div class="line"><span class="keyword">@property</span>(<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>) NSLock *lock;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewDidLoad {</div><div class="line">  [<span class="keyword">super</span> viewDidLoad];</div><div class="line"></div><div class="line">  <span class="built_in">UILabel</span> *label = [[<span class="built_in">UILabel</span> alloc] initWithFrame:CGRectMake(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">44</span>)];</div><div class="line">  label<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> lightGrayColor];</div><div class="line">  label<span class="variable">.center</span> = <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.center</span>;</div><div class="line">  [<span class="keyword">self</span><span class="variable">.view</span> addSubview:label];</div><div class="line">  <span class="keyword">self</span><span class="variable">.label</span> = label;</div><div class="line">}</div><div class="line"></div><div class="line">- (NSLock *)lock {</div><div class="line">  <span class="keyword">if</span> (!_lock) {</div><div class="line">    _lock = [[NSLock alloc] init];</div><div class="line">  }</div><div class="line">  <span class="keyword">return</span> _lock;</div><div class="line">}</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)saleTickets {</div><div class="line">  <span class="keyword">while</span> (<span class="literal">YES</span>) {</div><div class="line">    <span class="comment">// 加锁</span></div><div class="line">    [<span class="keyword">self</span><span class="variable">.lock</span> lock];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.count</span> &gt; <span class="number">0</span>) {</div><div class="line">      <span class="keyword">self</span><span class="variable">.count</span>--;</div><div class="line">      <span class="built_in">NSLog</span>(<span class="string">@"%@ 售出一张票，余票%d"</span>, [<span class="built_in">NSThread</span> currentThread], <span class="keyword">self</span><span class="variable">.count</span>);</div><div class="line">    }</div><div class="line">    <span class="comment">// 解锁</span></div><div class="line">    [<span class="keyword">self</span><span class="variable">.lock</span> unlock];</div><div class="line"></div><div class="line">    <span class="comment">// 回到主线程，刷新UI</span></div><div class="line">    [<span class="keyword">self</span><span class="variable">.label</span> performSelectorOnMainThread:<span class="keyword">@selector</span>(setText:)</div><div class="line">                                 withObject:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"余票: %2d"</span>, <span class="keyword">self</span><span class="variable">.count</span>]</div><div class="line">                              waitUntilDone:<span class="literal">YES</span>];</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span> *)touches withEvent:(UIEvent *)event {</div><div class="line">  <span class="keyword">self</span><span class="variable">.count</span> = <span class="number">1000</span>;</div><div class="line"></div><div class="line">  <span class="keyword">@autoreleasepool</span> {</div><div class="line">    <span class="comment">// 实例方法显示创建的线程需要手动开启</span></div><div class="line">    <span class="comment">// 实例方法创建线程</span></div><div class="line">    <span class="built_in">NSThread</span> *threadA = [[<span class="built_in">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span></div><div class="line">                                                selector:<span class="keyword">@selector</span>(saleTickets)</div><div class="line">                                                  object:<span class="literal">nil</span>];</div><div class="line">    threadA<span class="variable">.name</span> = <span class="string">@"ThreadA"</span>;</div><div class="line">    [threadA start];</div><div class="line"></div><div class="line">    <span class="comment">// 类方法显示创建线程自动开启</span></div><div class="line">    [<span class="built_in">NSThread</span> detachNewThreadSelector:<span class="keyword">@selector</span>(saleTickets)</div><div class="line">                             toTarget:<span class="keyword">self</span></div><div class="line">                           withObject:<span class="string">@"类方法"</span>];</div><div class="line"></div><div class="line">    <span class="comment">// 隐式创建的线程自动开启</span></div><div class="line">    [<span class="keyword">self</span> performSelectorInBackground:<span class="keyword">@selector</span>(saleTickets) withObject:<span class="literal">nil</span>];</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/多线程-NSThread-NSOperation-NSOperationQueue-GCD/">多线程, NSThread, NSOperation, NSOperationQueue, GCD</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yclzone.com/2015/02/26/iOS多线程-NSThread-NSOperation-NSOperationQueue-GCD/" data-title="iOS多线程- NSThread NSOperation/NSOperationQueue GCD | JUST DO IT" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/02/09/Google-IP-address-ranges/"  title="Google IP address ranges">
+ <strong>NEXT:</strong><br/> 
+ <span>Google IP address ranges
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSThread"><span class="toc-number">1.</span> <span class="toc-text">NSThread</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#显示创建线程"><span class="toc-number">1.1.</span> <span class="toc-text">显示创建线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式创建线程_（NSObject分类）"><span class="toc-number">1.2.</span> <span class="toc-text">隐式创建线程 （NSObject分类）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程之间通讯"><span class="toc-number">1.3.</span> <span class="toc-text">线程之间通讯</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	
+	<section class="author-info">
+		
+			<p> Coding</p>
+		
+		
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/yclzone" target="_blank" title="weibo"></a>
+		
+		
+		<a href="https://twitter.com/yclzone" target="_blank" title="twitter"></a>
+		
+		
+		<a href="https://github.com/yclzone" target="_blank" title="github"></a>
+		
+		
+	</div>
+</div>
+<aside class="clearfix">
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/Google/" title="Google">Google<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Multithreading/" title="Multithreading">Multithreading<sup>1</sup></a></li>
+		
+			<li><a href="/categories/OC/" title="OC">OC<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Test/" title="Test">Test<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Unix/" title="Unix">Unix<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Google-IP/" title="Google, IP">Google, IP<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Hello/" title="Hello">Hello<sup>1</sup></a></li>
+		
+			<li><a href="/tags/OC-Foundation-NSString/" title="OC, Foundation, NSString">OC, Foundation, NSString<sup>0</sup></a></li>
+		
+			<li><a href="/tags/OC-whitespace-NSString/" title="OC, whitespace, NSString">OC, whitespace, NSString<sup>1</sup></a></li>
+		
+			<li><a href="/tags/多线程-NSThread-NSOperation-NSOperationQueue-GCD/" title="多线程, NSThread, NSOperation, NSOperationQueue, GCD">多线程, NSThread, NSOperation, NSOperationQueue, GCD<sup>1</sup></a></li>
+		
+			<li><a href="/tags/重定向-乱码/" title="重定向, 乱码">重定向, 乱码<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+
+	<p class="copyright"> © 2015 
+		
+		<a href="http://yclzone.com" target="_blank" title="yclzone">yclzone</a>
+		
+            -- Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> -- Theme by <a href="https://github.com/zhanglun/hexo-theme/tree/master/Tinny" target="_blank" title="coney">Tinny</a>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
