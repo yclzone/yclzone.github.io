@@ -82,7 +82,7 @@ NSOperationQueue是对GCD的封装。NSOperationQueue有两种类型的队列">
     </p>
   <p class="article-time">
     <time datetime="2015-02-27T12:44:27.000Z" itemprop="datePublished">Feb 27 2015</time>
-    Updated:<time datetime="2015-03-04T09:09:44.000Z" itemprop="dateModified">Mar 4 2015</time>
+    Updated:<time datetime="2015-03-04T09:25:12.000Z" itemprop="dateModified">Mar 4 2015</time>
     
   </p>
 </header>
@@ -97,6 +97,43 @@ NSOperationQueue是对GCD的封装。NSOperationQueue有两种类型的队列">
 		<h2 id="队列">队列</h2>
 <p>有了队列，就可以不用直接和线程打交道了。队列由任务组成。当任务需要执行的时候，队列管理系统把任务分配给线程去执行。队列可以同时管理多个线程，或则始终管理一个线程，前者叫并行队列，后者叫串行队列。</p>
 <p><code>NSOperationQueue</code>是对GCD的封装。<code>NSOperationQueue</code>有两种类型的队列，主队列（在主线程中执行）和自定义队列（在后台线程中执行），队列执行的都是<code>NSOperation</code>的子类对象</p>
+<ul>
+<li><p>获取主队列</p>
+<blockquote>
+<p><code>+ (NSOperationQueue *)mainQueue</code></p>
+</blockquote>
+</li>
+<li><p>获取当前队列</p>
+<blockquote>
+<p><code>+ (NSOperationQueue *)currentQueue</code></p>
+</blockquote>
+</li>
+<li><p>向队列添加操作</p>
+<blockquote>
+<p><code>- (void)addOperation:(NSOperation *)operation</code></p>
+</blockquote>
+</li>
+<li><p>向队列添加操作(包装block)</p>
+<blockquote>
+<p><code>- (void)addOperationWithBlock:(void (^)(void))block</code></p>
+</blockquote>
+</li>
+<li><p>取消队列中的所有操作（包括正在执行的操作）</p>
+<blockquote>
+<p><code>- (void)cancelAllOperations</code></p>
+</blockquote>
+</li>
+<li><p>等待所有操作完成（阻塞当前线程，直至所有任务结束）</p>
+<blockquote>
+<p><code>- (void)waitUntilAllOperationsAreFinished</code></p>
+</blockquote>
+</li>
+<li><p>设置最大并发操作数</p>
+<blockquote>
+<p><code>@property NSInteger maxConcurrentOperationCount</code></p>
+</blockquote>
+</li>
+</ul>
 <h2 id="NSOperation">NSOperation</h2>
 <p><code>NSOperation</code>是一个抽象类，需要子类化后使用。<code>Foundation</code>提供了两个具体子类 <code>NSInvocationOperation</code>, <code>NSBlockOperation</code> </p>
 <p>创建操作对象，创建队列对象，将操作对象加入队列对象中，队列会自动启动并执行操作</p>
