@@ -4,24 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Google IP address ranges | JUST DO IT</title>
+    <title>iOS多线程-NSOperationQueue | JUST DO IT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="yclzone">
     
-    <meta name="description" content="Step One
-1nslookup -q=TXT _spf.google.com 8.8.8.8
-
-Step Two
-1nslookup -q=TXT _netblocks.google.com 8.8.8.8
-
-参考连接">
+    <meta name="description" content="队列
+有了队列，就可以不用直接和线程打交道了。队列由任务组成。当任务需要执行的时候，队列管理系统把任务分配给线程去执行。队列可以同时管理多个线程，或则始终管理一个线程，前者叫并行队列，后者叫串行队列。
+NSOperationQueue是对GCD的封装。NSOperationQueue有两种类型的队列">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="yclzone" />
-    <meta name="twitter:title" content="Google IP address ranges | JUST DO IT" />
+    <meta name="twitter:title" content="iOS多线程-NSOperationQueue | JUST DO IT" />
       
     
     
@@ -78,15 +74,15 @@ Step Two
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/09/Google-IP-address-ranges/" title="Google IP address ranges" itemprop="url">Google IP address ranges</a>
+      <a href="/2015/02/27/iOS多线程-NSOperationQueue/" title="iOS多线程-NSOperationQueue" itemprop="url">iOS多线程-NSOperationQueue</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yclzone.com" title="yclzone">yclzone</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-09T09:41:43.000Z" itemprop="datePublished">Feb 9 2015</time>
-    Updated:<time datetime="2015-02-09T09:46:00.000Z" itemprop="dateModified">Feb 9 2015</time>
+    <time datetime="2015-02-27T12:44:27.000Z" itemprop="datePublished">Feb 27 2015</time>
+    Updated:<time datetime="2015-02-27T12:48:05.000Z" itemprop="dateModified">Feb 27 2015</time>
     
   </p>
 </header>
@@ -95,36 +91,72 @@ Step Two
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_One"><span class="toc-number">1.</span> <span class="toc-text">Step One</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_Two"><span class="toc-number">2.</span> <span class="toc-text">Step Two</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-number">1.</span> <span class="toc-text">队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#子类化NSOperation"><span class="toc-number">1.1.</span> <span class="toc-text">子类化NSOperation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSInvocationOperate"><span class="toc-number">1.2.</span> <span class="toc-text">NSInvocationOperate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSBlockOperation"><span class="toc-number">1.3.</span> <span class="toc-text">NSBlockOperation</span></a></li></ol></li></ol>
 		</div>
 		
-		<h2 id="Step_One">Step One</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nslookup -q=TXT _spf.google.com <span class="number">8.8</span>.<span class="number">8.8</span></div></pre></td></tr></table></figure>
-
-<h2 id="Step_Two">Step Two</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nslookup -q=TXT _netblocks.google.com <span class="number">8.8</span>.<span class="number">8.8</span></div></pre></td></tr></table></figure>
-
-<p><a href="https://support.google.com/a/answer/60764?hl=zh-Hans" target="_blank" rel="external">参考连接</a></p>
+		<h2 id="队列">队列</h2>
+<p>有了队列，就可以不用直接和线程打交道了。队列由任务组成。当任务需要执行的时候，队列管理系统把任务分配给线程去执行。队列可以同时管理多个线程，或则始终管理一个线程，前者叫并行队列，后者叫串行队列。</p>
+<p><code>NSOperationQueue</code>是对GCD的封装。<code>NSOperationQueue</code>有两种类型的队列，主队列（在主线程中执行）和自定义队列（在后台线程中执行），队列执行的都是<code>NSOperation</code>的子类对象<br><code>NSOperation</code>是一个抽象类，需要子类化后使用。<code>Foundation</code>提供了两个具体子类 <code>NSInvocationOperation</code>, <code>NSBlockOperation</code> </p>
+<p>创建操作对象，创建队列对象，将操作对象加入队列对象中，队列会自动启动并执行操作</p>
+<h3 id="子类化NSOperation">子类化NSOperation</h3>
+<p>实现 <code>- (void)main</code>方法，指定需要执行的任务</p>
+<pre><code>    - (<span class="keyword">void</span>)main {
+        <span class="annotation">@autoreleasepool</span> {
+            <span class="comment">// 任务</span>
+        }
+    }
+</code></pre><ul>
+<li><p>添加依赖，等待依赖的操作完成后再执行</p>
+<blockquote>
+<p><code>- (void)addDependency:(NSOperation *)op;</code></p>
+</blockquote>
+</li>
+<li><p>完成回调，设置该属性即可</p>
+<blockquote>
+<p><code>@property (copy) void (^completionBlock)(void);</code></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="NSInvocationOperate">NSInvocationOperate</h3>
+<ul>
+<li>初始化 <blockquote>
+<p><code>- (instancetype)initWithTarget:(id)target selector:(SEL)sel object:(id)arg</code></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="NSBlockOperation">NSBlockOperation</h3>
+<ul>
+<li><p>创建并返回实例，并添加block对象 </p>
+<blockquote>
+<p><code>+ (instancetype)blockOperationWithBlock:(void (^)(void))block</code></p>
+</blockquote>
+</li>
+<li><p>添加block对象</p>
+<blockquote>
+<p> <code>- (void)addExecutionBlock:(void (^)(void))block</code></p>
+</blockquote>
+</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Google-IP/">Google, IP</a>
+  <span></span> <a href="/tags/NSOperationQueue/">NSOperationQueue</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Google/">Google</a>
+  <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yclzone.com/2015/02/09/Google-IP-address-ranges/" data-title="Google IP address ranges | JUST DO IT" data-tsina="null" class="share clearfix">
+  <div data-url="http://yclzone.com/2015/02/27/iOS多线程-NSOperationQueue/" data-title="iOS多线程-NSOperationQueue | JUST DO IT" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -133,19 +165,11 @@ Step Two
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/02/26/iOS多线程-NSThread/" title="iOS多线程 - NSThread">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  iOS多线程 - NSThread</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/06/解决man重定向到文件乱码/"  title="解决man重定向到文件乱码">
+<a href="/2015/02/27/iOS多线程-GCD/"  title="iOS多线程-GCD">
  <strong>NEXT:</strong><br/> 
- <span>解决man重定向到文件乱码
+ <span>iOS多线程-GCD
 </span>
 </a>
 </div>
@@ -157,7 +181,7 @@ Step Two
       
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_One"><span class="toc-number">1.</span> <span class="toc-text">Step One</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step_Two"><span class="toc-number">2.</span> <span class="toc-text">Step Two</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-number">1.</span> <span class="toc-text">队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#子类化NSOperation"><span class="toc-number">1.1.</span> <span class="toc-text">子类化NSOperation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSInvocationOperate"><span class="toc-number">1.2.</span> <span class="toc-text">NSInvocationOperate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSBlockOperation"><span class="toc-number">1.3.</span> <span class="toc-text">NSBlockOperation</span></a></li></ol></li></ol>
   </div>
 
 <div id="asidepart">

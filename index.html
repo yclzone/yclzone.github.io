@@ -71,29 +71,77 @@
   <article>
     <h1 itemprop="name">
       
-        <a href="/2015/02/26/iOS多线程-NSThread-NSOperation-NSOperationQueue-GCD/" title="iOS多线程- NSThread NSOperation/NSOperationQueue GCD" itemprop="url">
+        <a href="/2015/02/27/iOS多线程-NSOperationQueue/" title="iOS多线程-NSOperationQueue" itemprop="url">
       
-        iOS多线程- NSThread NSOperation/NSOperationQueue GCD
+        iOS多线程-NSOperationQueue
       </a>
     </h1>
     
      
-           <p itemprop="description" >NSThread
+           <p itemprop="description" >队列
+有了队列，就可以不用直接和线程打交道了。队列由任务组成。当任务需要执行的时候，队列管理系统把任务分配给线程去执行。队列可以同时管理多个线程，或则始终管理一个线程，前者叫并行队列，后者叫串行队列。
+NSOperationQueue是对GCD的封装。NSOperationQue</p>
+        
+    
+    <p class="article-more-link">
+      <time datetime="2015-02-27T12:44:27.000Z" itemprop="datePublished">Feb 27 2015</time>
+      
+          <a href="/2015/02/27/iOS多线程-NSOperationQueue/">MORE&raquo;</a>
+      
+    </p>
+
+  </article>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  <article>
+    <h1 itemprop="name">
+      
+        <a href="/2015/02/27/iOS多线程-GCD/" title="iOS多线程-GCD" itemprop="url">
+      
+        iOS多线程-GCD
+      </a>
+    </h1>
+    
+     
+           <p itemprop="description" >队列
+有了队列，就可以不用直接和线程打交道了。队列由任务组成。当任务需要执行的时候，队列管理系统把任务分配给线程去执行。队列可以同时管理多个线程，或则始终管理一个线程，前者叫并行队列，后者叫串行队列。
+GCD自动创建了5个队列：1个主队列(串行队列)和4个不同优先级的后台队列(并</p>
+        
+    
+    <p class="article-more-link">
+      <time datetime="2015-02-27T12:41:51.000Z" itemprop="datePublished">Feb 27 2015</time>
+      
+          <a href="/2015/02/27/iOS多线程-GCD/">MORE&raquo;</a>
+      
+    </p>
+
+  </article>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  <article>
+    <h1 itemprop="name">
+      
+        <a href="/2015/02/26/iOS多线程-NSThread/" title="iOS多线程 - NSThread" itemprop="url">
+      
+        iOS多线程 - NSThread
+      </a>
+    </h1>
+    
+     
+           <p itemprop="description" >线程是分配给CPU核心的操作系统资源，是用来执行任务的。一个线程产生后，可以只执行一个任务，执行完后销毁；也可以长时间存在，等待执行下一个任务。
+NSThread
+NSThread是pthreads对应API（C语言编写）的OC封装。
 显示创建线程
 
-实例方法 - (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(id)argument
-
-
-需要手动发送消息 - (void)start
-
-
-类方法 + </p>
+实例方法 - (instan</p>
         
     
     <p class="article-more-link">
       <time datetime="2015-02-26T08:23:24.000Z" itemprop="datePublished">Feb 26 2015</time>
       
-          <a href="/2015/02/26/iOS多线程-NSThread-NSOperation-NSOperationQueue-GCD/">MORE&raquo;</a>
+          <a href="/2015/02/26/iOS多线程-NSThread/">MORE&raquo;</a>
       
     </p>
 
@@ -187,47 +235,6 @@ iOS可能会有去除字符串中的空行、空格的需求，有两种情况�
   </article>
 </section>
 
-  <section class="post" itemscope itemprop="blogPost">
-  <article>
-    <h1 itemprop="name">
-      
-        <a href="/2015/01/27/hello-world/" title="Hello World" itemprop="url">
-      
-        Hello World
-      </a>
-    </h1>
-    
-     
-           <p itemprop="description" >Markdown 语法
-Atx标题 #
-1-6个#分表代表H1-H6
-区块引用 &amp;gt;
-
-我是引用我还是引用
-
-嵌套引用
-
-我也是引用Talk is cheap. Show me the code.
-
-行内引用
-Int, Float是一种基本数据类型
-列表
-有序列表 1.
-
-
-</p>
-        
-    
-    <p class="article-more-link">
-      <time datetime="2015-01-27T03:44:37.000Z" itemprop="datePublished">Jan 27 2015</time>
-      
-          <a href="/2015/01/27/hello-world/">MORE&raquo;</a>
-      
-    </p>
-
-  </article>
-</section>
-
 
 </div>
       
@@ -267,11 +274,11 @@ Int, Float是一种基本数据类型
 		
 			<li><a href="/categories/Google/" title="Google">Google<sup>1</sup></a></li>
 		
-			<li><a href="/categories/Multithreading/" title="Multithreading">Multithreading<sup>1</sup></a></li>
+			<li><a href="/categories/Multithreading/" title="Multithreading">Multithreading<sup>3</sup></a></li>
 		
 			<li><a href="/categories/OC/" title="OC">OC<sup>1</sup></a></li>
 		
-			<li><a href="/categories/Test/" title="Test">Test<sup>1</sup></a></li>
+			<li><a href="/categories/Test/" title="Test">Test<sup>0</sup></a></li>
 		
 			<li><a href="/categories/Unix/" title="Unix">Unix<sup>1</sup></a></li>
 		
@@ -282,7 +289,7 @@ Int, Float是一种基本数据类型
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">Archives</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
@@ -291,15 +298,21 @@ Int, Float是一种基本数据类型
 	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
+			<li><a href="/tags/GCD/" title="GCD">GCD<sup>1</sup></a></li>
+		
 			<li><a href="/tags/Google-IP/" title="Google, IP">Google, IP<sup>1</sup></a></li>
 		
-			<li><a href="/tags/Hello/" title="Hello">Hello<sup>1</sup></a></li>
+			<li><a href="/tags/Hello/" title="Hello">Hello<sup>0</sup></a></li>
+		
+			<li><a href="/tags/NSOperationQueue/" title="NSOperationQueue">NSOperationQueue<sup>1</sup></a></li>
 		
 			<li><a href="/tags/OC-Foundation-NSString/" title="OC, Foundation, NSString">OC, Foundation, NSString<sup>0</sup></a></li>
 		
 			<li><a href="/tags/OC-whitespace-NSString/" title="OC, whitespace, NSString">OC, whitespace, NSString<sup>1</sup></a></li>
 		
-			<li><a href="/tags/多线程-NSThread-NSOperation-NSOperationQueue-GCD/" title="多线程, NSThread, NSOperation, NSOperationQueue, GCD">多线程, NSThread, NSOperation, NSOperationQueue, GCD<sup>1</sup></a></li>
+			<li><a href="/tags/多线程-NSThread/" title="多线程, NSThread">多线程, NSThread<sup>1</sup></a></li>
+		
+			<li><a href="/tags/多线程-NSThread-NSOperation-NSOperationQueue-GCD/" title="多线程, NSThread, NSOperation, NSOperationQueue, GCD">多线程, NSThread, NSOperation, NSOperationQueue, GCD<sup>0</sup></a></li>
 		
 			<li><a href="/tags/重定向-乱码/" title="重定向, 乱码">重定向, 乱码<sup>1</sup></a></li>
 		
